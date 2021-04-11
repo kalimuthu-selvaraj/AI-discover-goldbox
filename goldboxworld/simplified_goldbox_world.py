@@ -16,27 +16,29 @@ class SimplifiedGoldboxWorld:
         0000000000
         000000M000
         00M000000G
-    The starting point is always at (0, 0)
+    The starting point is always at (0, 9)
     0: empty tile
     m: metal detector
+    s: sensing range
     G: gold box, the agent is successful if it reaches here
     """
 
     def __init__(self):
-        self.board = self.board = [
+        self.board = [
+            ['0', '0', '0', '0', '0', '0', '0', 'S', 'S', 'S'],
+            ['0', '0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S'],
+            ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', 'S'],
+            ['0', '0', 'S', 'S', 'S', '0', 'S', 'M', 'S', '0'],
+            ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', '0'],
+            ['0', '0', 'S', 'S', 'S', '0', '0', '0', '0', '0'],
             ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', 'M', '0'],
-            ['0', '0', '0', 'M', '0', '0', '0', 'M', '0', '0'],
-            ['0', 'M', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', 'M', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', 'M', '0', '0'],
-            ['0', '0', 'M', '0', '0', '0', '0', '0', '0', 'G']
+            ['0', '0', '0', '0', '0', '0', 'S', 'S', 'S', '0'],
+            ['0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S', '0'],
+            ['0', 'S', 'M', 'S', '0', '0', 'S', 'S', 'S', 'G']
         ]
-        self.agentX = 0
+        self.agentX = 9
         self.agentY = 0
+        self.initialBattery = 10000
 
         self.num_actions = 4    # up, down, left, right
         self.num_spaces = 100    # one for each tile
@@ -53,24 +55,29 @@ class SimplifiedGoldboxWorld:
         given an int, action, where 0 <= action < 4
         """
         assert 0 <= action < self.num_actions, "Action must be an integer between 0 and 3"
-
         if action == 0:
-            self.agentY = min(3, self.agentY + 1)
+            self.agentY = min(9, self.agentY + 1)
         elif action == 1:
             self.agentY = max(0, self.agentY - 1)
         elif action == 2:
             self.agentX = max(0, self.agentX - 1)
         else:
-            self.agentX = min(3, self.agentX + 1)
+            self.agentX = min(9, self.agentX + 1)
 
-        if self.board[self.agentY][self.agentX] in ('M'):
-            return (self.state, -100, True)
-        elif self.board[self.agentY][self.agentX] == 'G':
-            return (self.state, 10000, True)
+        if self.board[self.agentX][self.agentY] in ('M', 'S'):
+            self.initialBattery = (self.initialBattery - 100) - 1
+            return (self.state, -101, False)
+        elif self.board[self.agentX][self.agentY] == 'G':
+            self.initialBattery = (self.initialBattery + 10000) - 1
+            print("GOAL REACHED!!!", self.initialBattery)
+
+            return (self.state, 10000-1, True)
         else:
+            self.initialBattery = self.initialBattery - 1
             return (self.state, -1, False)
 
     def reset(self) -> int:
-        self.agentX = 0
+        self.agentX = 9
         self.agentY = 0
+        self.initialBattery = 10000
         return self.state
