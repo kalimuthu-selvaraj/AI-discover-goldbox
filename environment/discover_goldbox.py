@@ -3,23 +3,23 @@ from typing import Tuple
 from .discrete_space import DiscreteSpace
 
 
-class SimplifiedGoldboxWorld:
+class DiscoverGoldbox:
     """
-    Worlds are described by a grid like the following
-        0000000000
-        00000000M0
-        000M000000
-        0000000M00
-        0M00000000
-        000M000000
-        0000000000
-        0000000000
-        000000M000
-        00M000000G
+    Environments are described by a grid like the following
+        ['0', '0', '0', '0', '0', '0', '0', 'S', 'S', 'S'],
+        ['0', '0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S'],
+        ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', 'S'],
+        ['0', '0', 'S', 'S', 'S', '0', 'S', 'M', 'S', '0'],
+        ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', '0'],
+        ['0', '0', 'S', 'S', 'S', '0', '0', '0', '0', '0'],
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['0', '0', '0', '0', '0', '0', 'S', 'S', 'S', '0'],
+        ['0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S', '0'],
+        ['0', 'S', 'M', 'S', '0', '0', 'S', 'S', 'S', 'G']
     The starting point is always at (0, 9)
     0: empty tile
-    m: metal detector
-    s: sensing range
+    M: metal detector
+    S: sensing range
     G: gold box, the agent is successful if it reaches here
     """
 
@@ -39,6 +39,8 @@ class SimplifiedGoldboxWorld:
         self.agentX = 9
         self.agentY = 0
         self.initialBattery = 10000
+        self.totalBatteryPoints = 0
+        self.rewardBattery = 10000
 
         self.num_actions = 4    # up, down, left, right
         self.num_spaces = 100    # one for each tile
@@ -68,8 +70,10 @@ class SimplifiedGoldboxWorld:
             self.initialBattery = (self.initialBattery - 100) - 1
             return (self.state, -101, False)
         elif self.board[self.agentX][self.agentY] == 'G':
-            self.initialBattery = (self.initialBattery + 10000) - 1
-            print("GOAL REACHED!!!", self.initialBattery)
+            self.initialBattery = (self.initialBattery) - 1
+            self.totalBatteryPoints = self.initialBattery + self.rewardBattery
+            print(f"Goal Reached")
+            print(f"Total battery points in Robot: ", self.totalBatteryPoints)
 
             return (self.state, 10000-1, True)
         else:
