@@ -39,8 +39,7 @@ class DiscoverGoldbox:
         self.agentX = 9
         self.agentY = 0
         self.initialBattery = 10000
-        self.totalBatteryPoints = 0
-        self.rewardBattery = 10000
+        self.totalBatteryPoint = 0
 
         self.num_actions = 4    # up, down, left, right
         self.num_spaces = 100    # one for each tile
@@ -70,10 +69,9 @@ class DiscoverGoldbox:
             self.initialBattery = (self.initialBattery - 100) - 1
             return (self.state, -101, False)
         elif self.board[self.agentX][self.agentY] == 'G':
-            self.initialBattery = (self.initialBattery) - 1
-            self.totalBatteryPoints = self.initialBattery + self.rewardBattery
-            print(f"Goal Reached")
-            print(f"Total battery points in Robot: ", self.totalBatteryPoints)
+            self.totalBatteryPoint = (self.initialBattery + 10000) - 1
+            print("Agent discovered goldbox and it has total battery points: ",
+                  self.totalBatteryPoint)
 
             return (self.state, 10000-1, True)
         else:
