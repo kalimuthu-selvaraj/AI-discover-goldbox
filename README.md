@@ -1,4 +1,4 @@
-# find-goldbox
+# AI-discover-goldbox
 
 AI find a goldbox using qlearning algorithm
 
