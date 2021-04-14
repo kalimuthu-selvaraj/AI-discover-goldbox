@@ -67,10 +67,7 @@ class GoldboxDetector:
 
         if self.board[self.agentX][self.agentY] in ('M', 'S'):
             self.initialBattery = (self.initialBattery - 100) - 1
-            if(self.initialBattery < 101):
-                return (self.state, 0, True)
-            else:
-                return (self.state, -101, False)
+            return (self.state, -101, False)
         elif self.board[self.agentX][self.agentY] == 'G':
             self.totalBatteryPoint = (self.initialBattery + 10000) - 1
             print("Goal Reached!!!, total battery points is: ",
