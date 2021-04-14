@@ -3,19 +3,19 @@ from typing import Tuple
 from .discrete_space import DiscreteSpace
 
 
-class DiscoverGoldbox:
+class GoldboxDetector:
     """
     Environments are described by a grid like the following
-        ['0', '0', '0', '0', '0', '0', '0', 'S', 'S', 'S'],
-        ['0', '0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S'],
-        ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', 'S'],
-        ['0', '0', 'S', 'S', 'S', '0', 'S', 'M', 'S', '0'],
-        ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', '0'],
-        ['0', '0', 'S', 'S', 'S', '0', '0', '0', '0', '0'],
-        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-        ['0', '0', '0', '0', '0', '0', 'S', 'S', 'S', '0'],
-        ['0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S', '0'],
-        ['0', 'S', 'M', 'S', '0', '0', 'S', 'S', 'S', 'G']
+        0 0 0 0 0 0 0 S S S
+        0 0 S S S 0 0 S M S
+        0 0 S M S 0 S S S S
+        0 0 S S S 0 S M S 0
+        0 0 S M S 0 S S S 0
+        0 0 S S S 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 S S S 0
+        0 S S S 0 0 S M S 0
+        0 S M S 0 0 S S S G
     The starting point is always at (0, 9)
     0: empty tile
     M: metal detector
@@ -73,7 +73,7 @@ class DiscoverGoldbox:
                 return (self.state, -101, False)
         elif self.board[self.agentX][self.agentY] == 'G':
             self.totalBatteryPoint = (self.initialBattery + 10000) - 1
-            print("Agent discovered goldbox and it has total battery points: ",
+            print("Goal Reached!!!, total battery points is: ",
                   self.totalBatteryPoint)
 
             return (self.state, 10000-1, True)
