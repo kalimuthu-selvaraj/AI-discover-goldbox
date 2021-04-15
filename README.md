@@ -10,7 +10,7 @@ https://code.visualstudio.com/docs/python/python-tutorial
 
 ## Problem Statement
 
-![test image size](https://github.com/kalimuthu-selvaraj/AIGoldboxDetector/blob/main/images/environment.png|width=100px)
+<img src="https://github.com/kalimuthu-selvaraj/AIGoldboxDetector/blob/main/images/environment.png" width="500" height="500">
 
 Implement the Learning Agent which is in search of the only gold box in
 the given static environment equipped with the metal detectors . The metal detectors
@@ -22,6 +22,6 @@ agent’s battery life will reduce by 100 battery points. The ultimate goal is t
 box and it results 10000 additional battery points. The agent can sense only its battery points,
 which are automatically updated on each movement and the resultant cell contents
 
-![test image size](https://github.com/kalimuthu-selvaraj/AIGoldboxDetector/blob/main/images/detected_goldbox.gif|width=100px)
+<img src="https://github.com/kalimuthu-selvaraj/AIGoldboxDetector/blob/main/images/detected_goldbox.gif" width="500" height="500">
 
 Credits: https://github.com/MagicTurtle2203/QLearningWumpusWorld
