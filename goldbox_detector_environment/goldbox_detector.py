@@ -28,10 +28,10 @@ class GoldboxDetector:
             ['0', '0', '0', '0', '0', '0', '0', 'S', 'S', 'S'],
             ['0', '0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S'],
             ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', 'S'],
-            ['0', '0', 'S', 'S', 'S', '0', 'S', 'M', 'S', '0'],
-            ['0', '0', 'S', 'M', 'S', '0', 'S', 'S', 'S', '0'],
+            ['S', 'S', 'S', 'S', 'S', '0', 'S', 'M', 'S', '0'],
+            ['S', 'M', 'S', 'S', 'S', '0', 'S', 'S', 'S', '0'],
+            ['S', 'S', 'S', 'M', 'S', '0', '0', '0', '0', '0'],
             ['0', '0', 'S', 'S', 'S', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
             ['0', '0', '0', '0', '0', '0', 'S', 'S', 'S', '0'],
             ['0', 'S', 'S', 'S', '0', '0', 'S', 'M', 'S', '0'],
             ['0', 'S', 'M', 'S', '0', '0', 'S', 'S', 'S', 'G']
@@ -67,7 +67,10 @@ class GoldboxDetector:
 
         if self.board[self.agentX][self.agentY] in ('M', 'S'):
             self.initialBattery = (self.initialBattery - 100) - 1
-            return (self.state, -101, False)
+            if(self.initialBattery < 101):
+                return (self.state, 0, True)
+            else:
+                return (self.state, -101, False)
         elif self.board[self.agentX][self.agentY] == 'G':
             self.totalBatteryPoint = (self.initialBattery + 10000) - 1
             print("Goal Reached!!!, total battery points is: ",
